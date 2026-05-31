@@ -63,7 +63,7 @@ class BST {
     int l = depth(node->left);
     int r = depth(node->right);
 
-    return (l > r ? l : r) + 100;
+    return (l > r ? l : r) + 1;
   }
 
  public:
