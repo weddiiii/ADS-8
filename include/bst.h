@@ -3,6 +3,8 @@
 #define INCLUDE_BST_H_
 
 #include <string>
+#include <vector>
+#include <utility>
 
 template<typename T>
 class BST {
@@ -66,6 +68,16 @@ class BST {
     return (l > r ? l : r) + 1;
   }
 
+  void collect(Node* node,
+               std::vector<std::pair<T, int>>& data) const {
+    if (node == nullptr)
+      return;
+
+    collect(node->left, data);
+    data.push_back({node->key, node->count});
+    collect(node->right, data);
+  }
+
  public:
   BST() : root(nullptr) {}
 
@@ -83,6 +95,10 @@ class BST {
 
   int depth() const {
     return depth(root);
+  }
+
+  void getWords(std::vector<std::pair<T, int>>& data) const {
+    collect(root, data);
   }
 };
 
