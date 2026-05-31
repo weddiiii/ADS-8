@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include <utility>
 
 template<typename T>
 class BST {
@@ -22,16 +21,14 @@ class BST {
   Node* root;
 
   void clear(Node* node) {
-    if (node == nullptr)
-      return;
-
+    if (!node) return;
     clear(node->left);
     clear(node->right);
     delete node;
   }
 
   void insert(Node*& node, const T& value) {
-    if (node == nullptr) {
+    if (!node) {
       node = new Node(value);
       return;
     }
@@ -46,8 +43,7 @@ class BST {
   }
 
   int search(Node* node, const T& value) const {
-    if (node == nullptr)
-      return 0;
+    if (!node) return 0;
 
     if (value < node->key)
       return search(node->left, value);
@@ -59,8 +55,7 @@ class BST {
   }
 
   int depth(Node* node) const {
-    if (node == nullptr)
-      return 0;
+    if (!node) return -1;
 
     int l = depth(node->left);
     int r = depth(node->right);
@@ -69,13 +64,12 @@ class BST {
   }
 
   void collect(Node* node,
-               std::vector<std::pair<T, int>>& data) const {
-    if (node == nullptr)
-      return;
+               std::vector<std::pair<T, int>>& v) const {
+    if (!node) return;
 
-    collect(node->left, data);
-    data.push_back({node->key, node->count});
-    collect(node->right, data);
+    collect(node->left, v);
+    v.push_back({node->key, node->count});
+    collect(node->right, v);
   }
 
  public:
@@ -97,8 +91,8 @@ class BST {
     return depth(root);
   }
 
-  void getWords(std::vector<std::pair<T, int>>& data) const {
-    collect(root, data);
+  void getWords(std::vector<std::pair<T, int>>& v) const {
+    collect(root, v);
   }
 };
 
