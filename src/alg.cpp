@@ -2,7 +2,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <algorithm>
 #include <cctype>
+
 #include "bst.h"
 
 void makeTree(BST<std::string>& tree, const char* filename) {
@@ -30,4 +33,26 @@ void makeTree(BST<std::string>& tree, const char* filename) {
     tree.insert(word);
 
   file.close();
+}
+
+void printFreq(BST<std::string>& tree) {
+  std::vector<std::pair<std::string, int>> words;
+
+  tree.getWords(words);
+
+  std::sort(words.begin(), words.end(),
+    [](const auto& a, const auto& b) {
+      return a.second > b.second;
+    });
+
+  std::ofstream fout("result/freq.txt");
+
+  for (const auto& p : words) {
+    std::cout << p.first << " " << p.second << std::endl;
+
+    if (fout)
+      fout << p.first << " " << p.second << std::endl;
+  }
+
+  fout.close();
 }
